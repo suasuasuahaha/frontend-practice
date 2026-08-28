@@ -17,7 +17,7 @@ console.log(accountNO); //변수명으로 출력하면 동일한 값 확인 가�
 console.log(accountNO); 
 console.log(accountNO); 
 
-let ownerName = '김민준'; // 이름 / let = 변할 수 있는 값
+let ownerName = '김민준'; // 이름 / let = 변할 수 있는 값 > 정책적으로 이름을 바꿀 수 있나? / ai로 인한 오류로 이름이 바뀐다면, 다시 쉽게 바꿀 수 있도록 (사고방지)
 let balance = 1250000; // 잔액
 
 balance = balance - 50000; // 잔액에서 5만원을 차감
@@ -30,3 +30,5 @@ const FEE_RATE_PRIME = 0.002; // 우대수수료율 0.2%
 const DAILY_LIMIT = 10000000; // 하루 이체 한도 1000만원
 console.log(DAILY_LIMIT); // 상수는 변수와 달리 재할당 불가
 DAILY_LIMIT = 20000000; // 상수는 재할당 불가
+
+//

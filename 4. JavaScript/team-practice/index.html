@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>상암동 맛집 지도 & 후기 모음</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #f4f6f8;
+      color: #333;
+      font-family: 'Pretendard', -apple-system, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .app-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .app-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: #222;
+    }
+
+    .app-subtitle {
+      font-size: 14px;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    .main-container {
+      width: 100%;
+      max-width: 900px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .main-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 상암동 인터랙티브 지도 구역 */
+    .map-container {
+      position: relative;
+      width: 100%;
+      height: 320px;
+      background: #e3ebd3; /* 지도 느낌의 녹지 배경 */
+      border-radius: 12px;
+      border: 2px solid #d0d7c2;
+      overflow: hidden;
+      margin-top: 15px;
+    }
+
+    /* 상암동 도로 및 건물 가상 레이아웃 */
+    .map-road-h {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      height: 24px;
+      background: #ffffff;
+      transform: translateY(-50%);
+    }
+
+    .map-road-v {
+      position: absolute;
+      left: 50%;
+      height: 100%;
+      width: 24px;
+      background: #ffffff;
+      transform: translateX(-50%);
+    }
+
+    .map-label {
+      position: absolute;
+      font-size: 11px;
+      color: #889977;
+      font-weight: bold;
+      padding: 4px 8px;
+    }
+
+    /* 지도 마커 핀 */
+    .map-pin {
+      position: absolute;
+      transform: translate(-50%, -100%);
+      cursor: pointer;
+      font-size: 28px;
+      transition: transform 0.2s ease;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));
+    }
+
+    .map-pin:hover, .map-pin.active {
+      transform: translate(-50%, -115%) scale(1.25);
+      z-index: 10;
+    }
+
+    /* 랜시 맛집 선택 버튼 */
+    .random-btn {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      background-color: rgb(255, 99, 71);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: background-color 0.2s;
+    }
+
+    /* 후기 및 정보 출력 영역 */
+    .info-header {
+      border-bottom: 2px solid #f0f0f0;
+      padding-bottom: 12px;
+      margin-bottom: 15px;
+    }
+
+    .place-title {
+      font-size: 20px;
+      font-weight: bold;
+      color: #111;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .place-category {
+      font-size: 13px;
+      color: #777;
+      margin-top: 4px;
+    }
+
+    /* 별점 선택 */
+    .star-rating {
+      display: flex;
+      gap: 4px;
+      font-size: 22px;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+
+    .star {
+      color: #ddd;
+    }
+
+    .star.active {
+      color: #ffb800;
+    }
+
+    textarea {
+      width: 100%;
+      height: 70px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      resize: none;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      color: white;
+      background-color: #333;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* 다른 사람들 후기 목록 */
+    .reviews-container {
+      margin-top: 15px;
+      flex: 1;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+
+    .review-card {
+      background: #f8f9fa;
+      padding: 10px 12px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      border-left: 4px solid #ccc;
+    }
+
+    .review-user {
+      font-size: 12px;
+      font-weight: bold;
+      color: #555;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .review-stars {
+      color: #ffb800;
+      font-size: 12px;
+    }
+
+    .review-content {
+      font-size: 13px;
+      color: #333;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-header">
+    <div class="app-title">📍 상암동 맛집 지도 & 리뷰</div>
+    <div class="app-subtitle">지도의 핀을 클릭하거나 무작위 뽑기로 맛집 후기를 확인하세요!</div>
+  </div>
+
+  <div class="main-container">
+    <!-- 왼쪽: 상암동 가상 지도 및 버튼 -->
+    <div class="card">
+      <button id="btn" class="random-btn">🎲 상암동 맛집 랜덤 선택</button>
+      
+      <div class="map-container" id="mapContainer">
+        <!-- 배경 도로 레이아웃 -->
+        <div class="map-road-h"></div>
+        <div class="map-road-v"></div>
+        <div class="map-label" style="top:5px; left:5px;">DMC역 방면</div>
+        <div class="map-label" style="bottom:5px; right:5px;">MBC 브랜드어베뉴</div>
+
+        <!-- 맛집 핀들이 JS에 의해 dynamic하게 그려집니다 -->
+      </div>
+    </div>
+
+    <!-- 오른쪽: 선택된 맛집 정보 & 후기 모음 -->
+    <div class="card">
+      <div class="info-header">
+        <div class="place-title" id="placeTitle">📍 맛집을 선택해 주세요</div>
+        <div class="place-category" id="placeCategory">지도의 마커를 누르거나 위 버튼을 클릭하세요.</div>
+      </div>
+
+      <!-- 다른 사용자들의 후기 목록 -->
+      <div style="font-size: 14px; font-weight: bold; margin-bottom: 8px;">💬 방문자 후기 모음</div>
+      <div class="reviews-container" id="reviewList">
+        <div style="color: #999; font-size: 13px; text-align: center; margin-top: 40px;">
+          선택된 장소가 없습니다.
+        </div>
+      </div>
+
+      <!-- 직접 후기 작성 구역 -->
+      <div style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px;">
+        <div style="font-size: 13px; font-weight: bold;">✏️ 내 한 줄 후기 작성</div>
+        <div class="star-rating" id="starRating">
+          <span class="star active" data-value="1">★</span>
+          <span class="star active" data-value="2">★</span>
+          <span class="star active" data-value="3">★</span>
+          <span class="star active" data-value="4">★</span>
+          <span class="star active" data-value="5">★</span>
+        </div>
+        <textarea id="reviewInput" placeholder="이 맛집은 어땠나요? 후기를 남겨주세요!"></textarea>
+        <button id="submitBtn" class="submit-btn">후기 등록하기</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
