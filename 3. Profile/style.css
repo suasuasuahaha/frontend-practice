@@ -1,0 +1,296 @@
+/* ==========================================================================
+   RESET & SKY BLUE THEME STYLE
+   ========================================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-frame: #0F0F10;
+  --card-dark: #1A1A1C;
+  --card-border: #28282B;
+  --theme-sky-blue: #8AC0FF; /* 요청하신 스카이블루 컬러 */
+  --text-white: #FFFFFF;
+  --text-dark: #111111;
+  --text-gray: #A0A0A5;
+  --radius-outer: 24px;
+  --radius-card: 20px;
+}
+
+body.reference-bg {
+  background-color: var(--bg-frame);
+  font-family: 'Inter', -apple-system, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  color: var(--text-white);
+}
+
+.main-frame {
+  background-color: #000000;
+  border-radius: var(--radius-outer);
+  padding: 16px;
+  width: 100%;
+  max-width: 1360px;
+  display: flex;
+  gap: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 1024px) {
+  .main-frame {
+    flex-direction: column;
+  }
+}
+
+/* 좌/우 분할 비율 */
+.left-pane {
+  flex: 42;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.right-pane {
+  flex: 58;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bento-card {
+  background-color: var(--card-dark);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-card);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   LEFT PANE STYLES
+   ========================================================================== */
+/* 1. 이메일 바 */
+.contact-bar {
+  padding: 14px 20px;
+  font-size: 0.85rem;
+  color: var(--text-gray);
+  letter-spacing: 0.3px;
+}
+
+/* 2. 메인 스카이블루 ABOUT 카드 */
+.orange-about-card {
+  background-color: var(--theme-sky-blue);
+  border: none;
+  padding: 32px 28px 24px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.hero-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: -0.5px;
+  color: var(--text-dark);
+  margin-bottom: 20px;
+}
+
+/* 마케터 한수아 - 차분하고 세련된 회색조(Cool Gray) 포인트 컬러 */
+.highlight-gray {
+  color: hwb(0 34% 66%); /* 옅은 쿨그레이 색상 */
+  font-weight: 900;
+}
+
+.about-desc {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: #1A2332;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-right: 40px;
+  margin-bottom: 24px;
+}
+
+.white-circle-btn {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  background-color: var(--text-dark);
+  color: var(--text-white);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  font-size: 1.6rem;
+  font-weight: bold;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.card-footer-text {
+  font-size: 0.65rem;
+  letter-spacing: 0.5px;
+  color: #2D3A4E;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-footer-text .dot {
+  font-size: 0.5rem;
+}
+
+/* 3. Education & Certificate 정보 카드 */
+.info-list-card {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.info-row {
+  display: flex;
+  gap: 24px;
+  font-size: 0.88rem;
+}
+
+.info-label {
+  font-weight: 700;
+  color: var(--text-white);
+  width: 90px;
+  flex-shrink: 0;
+}
+
+.info-content {
+  color: var(--text-gray);
+}
+
+.info-content-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.info-content-list .item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.info-text {
+  color: #D1D1D6;
+}
+
+.info-date {
+  color: #7C7C80;
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   RIGHT PANE STYLES
+   ========================================================================== */
+.project-nav-bar {
+  background-color: var(--text-white);
+  border: none;
+  padding: 12px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 30px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+  flex: 1;
+  margin-right: 16px;
+}
+
+.nav-item {
+  color: #111111;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.divider {
+  color: #D0D0D5;
+  font-weight: 300;
+  font-size: 0.8rem;
+}
+
+.menu-icon-btn {
+  background: #1A1A1C;
+  border: none;
+  color: var(--text-white);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.main-project-card {
+  height: 100%;
+  min-height: 520px;
+  padding: 0;
+}
+
+/* 카드 전체 링크 감싸기 및 클릭 활성화 */
+.project-card-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.orange-circle-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: var(--theme-sky-blue);
+  color: var(--text-dark);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  z-index: 10;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  pointer-events: none; /* 클릭 이벤트 간섭 방지 */
+}
+
+.project-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.project-card-link:hover .project-img {
+  transform: scale(1.03); /* 호버 시 미세 확대 효과 */
+}

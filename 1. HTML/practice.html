@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>호텔, 항공권, 렌터카, 투어&티켓 예약은 트립닷컴 | Trip.com</title>
+</head>
+<link rel="stylesheet" href="practice.css">
+<body>
+
+  <!-- 1. 상단 헤더 (로고, 통화/언어 설정, 로그인) -->
+  <header>
+    <div>
+      <h1>
+        <a href="https://www.trip.com">Trip.com</a>
+      </h1>
+      <nav>
+        <ul>
+          <li><a href="#">모바일 앱</a></li>
+          <li><a href="#">고객센터</a></li>
+          <li><a href="#">KRW (₩)</a></li>
+          <li><a href="#">한국어</a></li>
+          <li><a href="#">로그인 / 회원가입</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 2. 주 네비게이션 (핵심 서비스 카테고리) -->
+  <nav>
+    <ul>
+      <li><a href="#">호텔</a></li>
+      <li><a href="#">항공권</a></li>
+      <li><a href="#">기차표</a></li>
+      <li><a href="#">렌터카</a></li>
+      <li><a href="#">투어&티켓</a></li>
+      <li><a href="#">항공+호텔</a></li>
+      <li><a href="#">트립 모먼트</a></li>
+    </ul>
+  </nav>
+
+  <!-- 3. 메인 영역 (검색 폼 및 주요 프로모션) -->
+  <main>
+    <!-- 여행 상품 검색 엔진 영역 -->
+    <section>
+      <h2>여행 검색</h2>
+      
+      <!-- 탭 선택 (예: 호텔 검색/항공권 검색) -->
+      <ul>
+        <li><button type="button">호텔</button></li>
+        <li><button type="button">항공권</button></li>
+        <li><button type="button">렌터카</button></li>
+        <li><button type="button">투어&티켓</button></li>
+      </ul>
+
+      <!-- 검색 입력 폼 -->
+      <form action="#" method="get">
+        <fieldset>
+          <legend>호텔 및 숙소 검색</legend>
+          
+          <div>
+            <label for="destination">목적지/숙소명</label>
+            <input type="text" id="destination" placeholder="도시, 지역 또는 숙소 이름">
+          </div>
+
+          <div>
+            <label for="checkin">체크인</label>
+            <input type="date" id="checkin">
+          </div>
+
+          <div>
+            <label for="checkout">체크아웃</label>
+            <input type="date" id="checkout">
+          </div>
+
+          <div>
+            <label for="guests">인원 및 객실</label>
+            <input type="text" id="guests" value="성인 2명, 객실 1개" readonly>
+          </div>
+
+          <button type="submit">검색</button>
+        </fieldset>
+      </form>
+    </section>
+
+    <!-- 프로모션 및 배너 영역 -->
+    <section>
+      <h2>특가 및 혜택</h2>
+      <article>
+        <h3>이달의 추천 혜택</h3>
+        <p>인기 도시 호텔 최대 50% 할인 쿠폰 pack</p>
+      </article>
+      <article>
+        <h3>인기 여행지</h3>
+        <ul>
+          <li><a href="#">도쿄</a></li>
+          <li><a href="#">오사카</a></li>
+          <li><a href="#">방콕</a></li>
+          <li><a href="#">제주도</a></li>
+        </ul>
+      </article>
+    </section>
+  </main>
+
+  <!-- 4. 하단 푸터 (회사 정보 및 고객 지원) -->
+  <footer>
+    <section>
+      <h2>고객 지원</h2>
+      <ul>
+        <li><a href="#">고객센터 문의</a></li>
+        <li><a href="#">수수료 및 환불 규정</a></li>
+        <li><a href="#">자주 묻는 질문</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Trip.com 소개</h2>
+      <ul>
+        <li><a href="#">회사 소개</a></li>
+        <li><a href="#">뉴스룸</a></li>
+        <li><a href="#">채용 정보</a></li>
+        <li><strong><a href="#">개인정보 처리방침</a></strong></li>
+        <li><a href="#">이용약관</a></li>
+      </ul>
+    </section>
+
+    <address>
+      <p>Copyright © Trip.com Travel Singapore Pte. Ltd. All rights reserved.</p>
+    </address>
+  </footer>
+
+</body>
+</html>
+

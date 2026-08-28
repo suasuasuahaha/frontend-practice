@@ -1,0 +1,10 @@
+.container {
+    display: flex;
+    jcustify-content: center;
+}
+
+/* class이름이 box인 div 태그 */
+.box {
+    color: blue;
+    border: 2px solid hsl(128, 100%, 50%);
+}
