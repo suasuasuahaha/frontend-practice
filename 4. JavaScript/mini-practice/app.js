@@ -1,5 +1,5 @@
 /* =========================================================
-   미니 계좌 대시보드 — script.js (메모 입력칸 자동 포함)
+   미니 계좌 대시보드 — script.js
    ========================================================= */
 
 /* ---------------------------------------------------------
@@ -7,7 +7,7 @@
    --------------------------------------------------------- */
 let accountNo = "110-234-567890";
 let ownerName = "김민준";
-let balance = 3350000; // 초기 잔액 (300만 + 15만 + 20만)
+let balance = 3350000;
 
 const FEE_RATE_NORMAL = 0.005;   // 일반 수수료 0.5%
 const DAILY_LIMIT = 10000000;    // 1회 이체 한도
@@ -29,7 +29,6 @@ function todayLabel() {
   return `${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
 
-// 이체 금액 검증 함수 (잔액 초과 여부 체크)
 function validateTransfer(amount, currentBalance) {
   if (Number.isNaN(amount) || amount === 0) return "금액을 입력해 주세요.";
   if (amount < 0) return "0원보다 큰 금액을 입력해 주세요.";
@@ -38,7 +37,6 @@ function validateTransfer(amount, currentBalance) {
   const fee = calculateFee(amount);
   const totalRequired = amount + fee;
 
-  // 잔액을 넘는지 체크
   if (totalRequired > currentBalance) {
     return `잔액이 부족합니다. (수수료 포함 ${formatWon(totalRequired)} 필요)`;
   }
@@ -60,7 +58,6 @@ const submitBtnEl = document.getElementById("submitBtn");
 const formErrorEl = document.getElementById("formError");
 const formNoticeEl = document.getElementById("formNotice");
 
-// ✨ 기존 HTML의 form-row 안에 메모 입력칸(<input>)을 직접 동적으로 생성해서 넣어줍니다.
 const formRowEl = transferFormEl ? transferFormEl.querySelector(".form-row") : null;
 let memoInputEl = null;
 
@@ -70,7 +67,6 @@ if (formRowEl) {
   memoInputEl.id = "memoInput";
   memoInputEl.placeholder = "이체 메모 (예: 월세)";
   
-  // 버튼 바로 앞에 메모 입력칸을 추가
   formRowEl.insertBefore(memoInputEl, submitBtnEl);
 }
 
@@ -89,17 +85,39 @@ function getVisibleTransactions() {
   return transactions.filter((tx) => tx.type === currentFilter);
 }
 
+// ✨ 디스플레이 레이아웃 및 색상 지정 렌더링 함수
 function renderList() {
   if (!txListEl) return;
-  txListEl.innerHTML = "";
+  txListEl.innerHTML = ""; 
 
   const visibleTxs = getVisibleTransactions();
 
   visibleTxs.forEach((tx) => {
     const li = document.createElement("li");
-    const sign = tx.type === "deposit" ? "+" : "-";
+    const isDeposit = tx.type === "deposit";
+    const sign = isDeposit ? "+" : "-";
 
-    li.textContent = `${tx.date} | ${tx.memo} | ${sign}${formatWon(tx.amount)}`;
+    // 1. Flexbox 설정: 왼쪽(메모+날짜/번호)과 오른쪽(금액)으로 정렬
+    li.style.display = "flex";
+    li.style.justifyContent = "space-between";
+    li.style.alignItems = "center";
+    li.style.padding = "10px 0";
+    li.style.borderBottom = "1px solid #f0f0f0";
+
+    // 2. 금액 입출금 색상 지정 (입금: 초록색, 출금: 빨간색)
+    const amountColor = isDeposit ? "#2e7d32" : "#d32f2f";
+
+    // 3. HTML 내부 구조 생성
+    li.innerHTML = `
+      <div style="display: flex; flex-direction: column; gap: 3px;">
+        <span style="font-size: 15px; font-weight: 600; color: #333;">${tx.memo}</span>
+        <span style="font-size: 12px; color: #888;">${tx.date} · ${tx.id}</span>
+      </div>
+      <div style="font-weight: 700; font-size: 15px; color: ${amountColor};">
+        ${sign}${formatWon(tx.amount)}
+      </div>
+    `;
+
     li.className = tx.type;
     txListEl.prepend(li);
   });
@@ -114,7 +132,6 @@ function render() {
    STEP 5 — 이벤트 제어
    --------------------------------------------------------- */
 
-// 필터 버튼 클릭 이벤트
 if (filtersEl) {
   filtersEl.addEventListener("click", (e) => {
     if (e.target.tagName === "BUTTON") {
@@ -126,7 +143,6 @@ if (filtersEl) {
   });
 }
 
-// 이체 금액 실시간 입력 및 잔액 비교 검증
 if (amountInputEl) {
   amountInputEl.addEventListener("input", (e) => {
     const amount = Number(e.target.value);
@@ -145,13 +161,11 @@ if (amountInputEl) {
   });
 }
 
-// 이체 폼 제출
 if (transferFormEl) {
   transferFormEl.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const amount = Number(amountInputEl.value);
-    // 작성한 메모가 있으면 쓰고, 없으면 기본값 '이체' 적용
     const memo = (memoInputEl && memoInputEl.value.trim() !== "") ? memoInputEl.value.trim() : "이체";
 
     const errorMsg = validateTransfer(amount, balance);
@@ -165,7 +179,6 @@ if (transferFormEl) {
     const totalRequired = amount + fee;
     balance -= totalRequired;
 
-    // 거래 내역에 출금 기록과 입력한 메모 추가
     transactions.push({
       id: `TX-${String(transactions.length + 1).padStart(3, "0")}`,
       date: todayLabel(),
@@ -174,9 +187,8 @@ if (transferFormEl) {
       memo: memo,
     });
 
-    render(); // 화면 갱신
+    render();
 
-    // 폼 초기화
     amountInputEl.value = "";
     if (memoInputEl) memoInputEl.value = "";
     if (formNoticeEl) formNoticeEl.textContent = "";
@@ -187,5 +199,4 @@ if (transferFormEl) {
   });
 }
 
-// 최초 화면 실행
 render();
