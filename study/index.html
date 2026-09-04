@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율 스터디 그룹 모집</title>
+    <style>
+        body {
+            font-family: 'Pretendard', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 40px 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        /* 입력 폼 */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #4A90E2;
+        }
+
+        /* 선택된 스터디가 있을 때 하이라이트 표시 */
+        input.selected-highlight {
+            border: 2px solid #4A90E2;
+            background-color: #f0f7ff;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 8px;
+        }
+
+        .btn-submit:hover {
+            background-color: #357ABD;
+        }
+
+        /* 스터디 목록 */
+        .study-list-section {
+            margin-top: 32px;
+            border-top: 2px solid #eee;
+            padding-top: 20px;
+        }
+
+        .study-list-section h2 {
+            font-size: 1.2rem;
+            color: #2c3e50;
+            margin-bottom: 16px;
+        }
+
+        .study-card {
+            background-color: #fafafa;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .study-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .study-card h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: #1a202c;
+        }
+
+        /* 카드의 참가하기 버튼 */
+        .btn-join {
+            background-color: #e2e8f0;
+            color: #2d3748;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-join:hover {
+            background-color: #4A90E2;
+            color: white;
+        }
+
+        .members-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .member-tag {
+            background-color: #edf2f7;
+            color: #4a5568;
+            padding: 5px 12px;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            border: 1px solid #cbd5e0;
+        }
+
+        .no-study-msg {
+            color: #a0aec0;
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>스터디 모임 개설 & 참가</h1>
+
+    <!-- 스터디 입력/참가 폼 -->
+    <div class="form-group">
+        <label for="studyName">스터디 이름 <small style="color: #888; font-weight: normal;">(새로 만들거나 아래 목록에서 선택 가능)</small></label>
+        <input type="text" id="studyName" placeholder="예: 파이썬 기초, 독서 모임">
+    </div>
+
+    <div class="form-group">
+        <label for="userName">신청자 이름</label>
+        <input type="text" id="userName" placeholder="이름을 입력하세요">
+    </div>
+
+    <button class="btn-submit" onclick="addStudyOrMember()">스터디 등록 / 참가하기</button>
+
+    <!-- 개설된 스터디 목록 -->
+    <div class="study-list-section">
+        <h2>개설된 스터디 목록</h2>
+        <div id="studyContainer">
+            <p class="no-study-msg" id="noStudyMsg">아직 등록된 스터디가 없습니다.<br>위에서 스터디를 직접 만들어 보세요!</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function addStudyOrMember() {
+        const studyNameInput = document.getElementById('studyName');
+        const userNameInput = document.getElementById('userName');
+
+        const rawStudyName = studyNameInput.value.trim();
+        const userName = userNameInput.value.trim();
+
+        // 입력 검증
+        if (rawStudyName === '') {
+            alert('스터디 이름을 입력하거나 아래 목록에서 선택해주세요.');
+            return;
+        }
+        if (userName === '') {
+            alert('신청자 이름을 입력해주세요.');
+            return;
+        }
+
+        const studyContainer = document.getElementById('studyContainer');
+        const noStudyMsg = document.getElementById('noStudyMsg');
+
+        // 안내문구 제거
+        if (noStudyMsg) {
+            noStudyMsg.remove();
+        }
+
+        // 고유 ID 생성 (대소문자/공백 무시)
+        const studyId = 'study-' + rawStudyName.replace(/\s+/g, '-').toLowerCase();
+
+        // 기존 카드 확인
+        let studyCard = document.getElementById(studyId);
+
+        // 없으면 카드를 새로 생성
+        if (!studyCard) {
+            studyCard = document.createElement('div');
+            studyCard.className = 'study-card';
+            studyCard.id = studyId;
+
+            studyCard.innerHTML = `
+                <div class="study-card-header">
+                    <h3>${rawStudyName}</h3>
+                    <button class="btn-join" onclick="selectStudy('${rawStudyName}')">＋ 선택하기</button>
+                </div>
+                <div class="members-tags"></div>
+            `;
+            studyContainer.appendChild(studyCard);
+        }
+
+        // 해당 스터디 카드의 참가자 목록 영역 가져오기
+        const membersContainer = studyCard.querySelector('.members-tags');
+
+        // 참가자 이름 태그 생성 및 추가
+        const newTag = document.createElement('span');
+        newTag.className = 'member-tag';
+        newTag.textContent = userName;
+
+        membersContainer.appendChild(newTag);
+
+        // 입력 폼 초기화 및 강조 해제
+        studyNameInput.value = '';
+        userNameInput.value = '';
+        studyNameInput.classList.remove('selected-highlight');
+    }
+
+    // 만들어진 목록 카드에서 [선택하기] 누르면 스터디 입력창으로 바로 채워주는 함수
+    function selectStudy(name) {
+        const studyNameInput = document.getElementById('studyName');
+        const userNameInput = document.getElementById('userName');
+
+        studyNameInput.value = name;
+        studyNameInput.classList.add('selected-highlight');
+        userNameInput.focus(); // 사용자가 바로 이름을 입력할 수 있게 포커스 이동
+    }
+</script>
+
+</body>
+</html>

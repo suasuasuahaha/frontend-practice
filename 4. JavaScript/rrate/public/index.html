@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>환율 변환기</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="card">
+        <h1>환율 변환기</h1>
+        <p class="desc">ECB(유럽중앙은행) 공식 기준환율 · 평일 1일 1회 갱신 · Frankfurter API(무료 · 키 불필요)</p>
+
+        <form id="convert-form">
+            <!-- 1. 금액 입력 -->
+            <div class="field">
+                <label for="amount">금액</label>
+                <input type="number" id="amount" value="1" min="0" step="any" required>
+                <div class="quick-amounts">
+                    <button type="button" class="chip" data-amount="1">1</button>
+                    <button type="button" class="chip" data-amount="10">10</button>
+                    <button type="button" class="chip" data-amount="100">100</button>
+                    <button type="button" class="chip" data-amount="1000">1,000</button>
+                </div>
+            </div>
+
+            <!-- 2. 통화 선택 -->
+            <div class="field-row">
+                <div class="field">
+                    <label for="from-currency">보내는 통화</label>
+                    <select id="from-currency"></select>
+                </div>
+
+                <button type="button" id="swap-btn" title="통화 바꾸기">⇄</button>
+
+                <div class="field">
+                    <label for="to-currency">받는 통화</label>
+                    <select id="to-currency"></select>
+                </div>
+            </div>
+
+            <!-- 3. 4대 은행 및 수수료 옵션 선택 -->
+            <div class="field-row">
+                <div class="field">
+                    <label for="bank-select">이용할 은행</label>
+                    <select id="bank-select">
+                        <option value="WOORI" selected>우리은행 (WON뱅킹)</option>
+                        <option value="KB">KB국민은행 (KB스타뱅킹)</option>
+                        <option value="SHINHAN">신한은행 (신한 SOL)</option>
+                        <option value="HANA">하나은행 (하나원큐)</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="discount-rate">적용 우대율</label>
+                    <select id="discount-rate"></select>
+                </div>
+            </div>
+
+            <!-- 수수료 정보 요약 표시 -->
+            <div class="fee-badge-box">
+                <span id="bank-fee-badge" class="badge">기본 수수료 계산 중...</span>
+            </div>
+
+            <button type="submit" id="convert-btn">변환하기</button>
+        </form>
+
+        <!-- 결과 영역 -->
+        <section id="result" class="result" hidden>
+            <p id="result-text"></p>
+            <p id="unit-rate" class="unit-rate"></p>
+            <p id="fee-info" class="fee-info"></p>
+            <p id="result-date" class="muted"></p>
+        </section>
+
+        <!-- 차트 영역 -->
+        <section id="trend" class="trend" hidden>
+            <div class="trend-header">
+                <span>최근 30영업일 추이</span>
+                <span id="trend-change"></span>
+            </div>
+            <svg id="trend-chart" viewBox="0 0 300 80" preserveAspectRatio="none"></svg>
+            <div class="trend-minmax">
+                <span id="trend-min"></span>
+                <span id="trend-max"></span>
+            </div>
+        </section>
+
+        <p id="error" class="error" hidden></p>
+        
+        <p class="source-notice">※ 4대 시중은행 현찰 수수료율 및 모바일 앱 우대 기준 적용 (은행연합회 공시 참고)</p>
+    </main>
+</body>
+<script src="app.js"></script>
+</html>
